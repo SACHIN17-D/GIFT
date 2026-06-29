@@ -85,17 +85,20 @@
         }
 
         /* On real mobile devices, collapse border mockup & go full screen */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             body {
                 background: linear-gradient(135deg, #f5f3ff 0%, #edd9ff 50%, #ffd6e8 100%);
             }
             .app-container {
-                max-width: 100vw;
-                height: 100vh;
-                max-height: 100vh;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
+                width: 100vw !important;
+                max-width: 100vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
+                max-height: 100vh !important;
+                max-height: 100dvh !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
             }
         }
 
@@ -1199,7 +1202,7 @@
         <div class="lock-card">
             <div class="lock-icon">🎁</div>
             <h1 class="lock-title">A Special Surprise</h1>
-            <p class="lock-subtitle">Hinata, your magical gift universe is locked! It will automatically open on: June 29th, 2026 at 6:05 PM. ✨</p>
+            <p class="lock-subtitle">Hinata, your magical gift universe is locked! It will automatically open on your birthday: July 1st, 2026. ✨</p>
             
             <div class="countdown-grid">
                 <div class="countdown-box">
@@ -1220,7 +1223,7 @@
                 </div>
             </div>
             
-            <div class="lock-footer">✨ June 29, 2026 at 06:05 PM ✨</div>
+            <div class="lock-footer">✨ July 1, 2026 at 00:00 AM ✨</div>
         </div>
     </div>
 
@@ -1232,7 +1235,7 @@
 
         <!-- MUSIC BOX AUDIO TOGGLE -->
         <div class="audio-wrapper">
-            <button class="music-toggle muted" id="musicToggle" onclick="toggleMusic()">🔕</button>
+            <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🔊</button>
         </div>
 
         <!-- HOME PAGE -->
@@ -1700,7 +1703,7 @@
         let audioCtx = null;
         let melodyTimeout = null;
         let currentNoteIndex = 0;
-        let isMusicPlaying = false;
+        let isMusicPlaying = true;
         const tempo = 135; // BPM
         const beatDuration = 60 / tempo;
 
@@ -1809,6 +1812,10 @@
             const bgMusic = document.getElementById('birthday-song');
             if (bgMusic && isMusicPlaying && bgMusic.paused) {
                 bgMusic.play().catch(() => {});
+                // Keep note particles rising
+                if (!visualNotesInterval) {
+                    visualNotesInterval = setInterval(spawnMusicNoteVisuals, 600);
+                }
             }
             // Remove after single interaction triggers
             document.removeEventListener('click', startAudioOnInteraction);
@@ -1819,7 +1826,7 @@
         let isEnvelopeOpen = false;
         let typingTimeout = null;
 
-        const letterText = "Happy Birthday, Hinata! 🎂\n\nYou are one of the most beautiful souls in the world—incredibly kind-hearted, deeply thoughtful, and exceptionally talented. Your shyness hides an inner strength and grace that inspires everyone around you. Your sweet smile has a unique way of making the darkest days bright. ✨\n\nAnd your Mehndi art? It is absolutely breathtaking! 🌿 The way your hands move with such precision and grace, weaving intricate florals, paisleys, and vines — it is truly a God-gifted talent. Every design you create carries your heart and soul in it.\n\nI hope this year brings you endless joy, success, and all the happiness you deserve. Keep shining and growing. ✨";
+        const letterText = "Happy Birthday, Hinata! 🎂\n\nYou are one of the most beautiful souls in the world—incredibly kind-hearted, deeply thoughtful, and exceptionally talented. Your shyness hides an inner strength and grace that inspires everyone around you. Your sweet smile has a unique way of making the darkest days bright. ✨\n\nAnd your Mehndi art? It is absolutely breathtaking! 🌿 The way your hands move with such precision and grace, weaving intricate florals, paisleys, and vines — it is truly a God-gifted talent. Every design you create carries your heart and soul in it.\n\nI hope this year brings you endless joy, success, and all the happiness you deserve. Keep shining and growing. ✨\n\nThank you so much for being such a wonderful friend. I am truly grateful to have you in my life, and I hope our beautiful friendship continues to grow stronger and last forever. Cheers to many more years of great memories! 🌸✨";
 
         function toggleEnvelope() {
             const wrapper = document.getElementById('envelope-wrapper');
@@ -2370,8 +2377,8 @@
             const minutesVal = document.getElementById('countdown-minutes');
             const secondsVal = document.getElementById('countdown-seconds');
 
-            // June 29th, 2026 at 6:05 PM local time (month 5 in JS is June)
-            const targetDate = new Date(2026, 5, 29, 18, 5, 0);
+            // July 1st, 2026 local time (month 6 in JS is July)
+            const targetDate = new Date(2026, 6, 1, 0, 0, 0);
 
             function updateTimer() {
                 const now = new Date();
