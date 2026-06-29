@@ -1163,6 +1163,28 @@
                 opacity: 0;
             }
         }
+
+        /* Sleek float animation for music notes (fixes layout vibration) */
+        .music-bubble {
+            position: fixed;
+            z-index: 9999;
+            font-size: 1.2rem;
+            pointer-events: none;
+            color: var(--primary-light);
+            text-shadow: 0 0 5px rgba(124, 58, 237, 0.3);
+            animation: floatUpNote 2.5s ease-out forwards;
+        }
+
+        @keyframes floatUpNote {
+            0% {
+                transform: translate(-50%, 0) translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, 0) translateY(-120px) translateX(var(--x-shift)) scale(0.85);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1248,7 +1270,7 @@
                             <div class="envelope-letter">
                                 <div class="letter-title">Dear Hinata,</div>
                                 <div class="letter-content" id="letter-body"></div>
-                                <div class="letter-sign">Your Friend 💕</div>
+                                <div class="letter-sign">SACHIN</div>
                             </div>
                         </div>
                     </div>
@@ -1259,16 +1281,9 @@
                         <div class="polaroid-frame" id="polaroid-frame">
                             <div class="polaroid-image-wrapper">
                                 <img id="polaroid-img" src="./hina.jpeg" alt="Aesthetic Cherry Blossoms">
-                                <div class="drag-overlay">
-                                    <span>📸 Drop your photo here!</span>
-                                </div>
                             </div>
                             <div class="polaroid-caption">Hinata</div>
                         </div>
-                        <label for="photo-upload" class="photo-upload-label">
-                            <span>✨ Change Photo</span>
-                        </label>
-                        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
                     </div>
                 </div>
             </div>
