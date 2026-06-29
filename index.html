@@ -1188,6 +1188,48 @@
                 opacity: 0;
             }
         }
+        /* Floating Make a Wish Star Balloon */
+        .floating-wish-star {
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-dark);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+            border: 2.5px solid white;
+            z-index: 100;
+            pointer-events: none;
+            white-space: nowrap;
+            animation: floatUpWish 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes floatUpWish {
+            0% {
+                top: 65%;
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+            15% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+            20% {
+                transform: translateX(-50%) scale(1);
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                top: 20%;
+                opacity: 0;
+                transform: translateX(-50%) scale(0.7);
+            }
+        }
     </style>
 </head>
 <body>
@@ -2037,12 +2079,59 @@
 
             if (candlesBlown.every(state => state)) {
                 setTimeout(() => {
-                    createMassiveConfetti();
+                    triggerCakeCelebration();
                     const fb = document.getElementById('wish-feedback');
                     fb.innerHTML = "🌟 Candle flames extinguished! Make your magical wish, Hinata! May it come true! 🌟";
                     fb.classList.add('show');
                 }, 500);
             }
+        }
+
+        function triggerCakeCelebration() {
+            // 1. Play fanfare chimes
+            playFanfare();
+            
+            // 2. Spawn a massive wave of falling confetti (150+ pieces over 1.5 seconds)
+            let waveCount = 0;
+            const confettiInterval = setInterval(() => {
+                createConfetti();
+                waveCount++;
+                if (waveCount >= 5) clearInterval(confettiInterval);
+            }, 250);
+
+            // 3. Spawn a fountain of rising magical sparkles/emojis from the cake
+            const container = document.querySelector('.app-container');
+            const emojis = ['✨', '🌸', '💐', '⭐', '🎈', '🎉', '🌟', '🌸', '✨'];
+            for (let i = 0; i < 45; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'emoji-burst';
+                bubble.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Spawn centered on the cake area
+                bubble.style.left = '50%';
+                bubble.style.top = '65%';
+                
+                const angle = (Math.PI + Math.random() * Math.PI); // Fly upwards (between 180 and 360 degrees)
+                const dist = 100 + Math.random() * 220;
+                const dx = Math.cos(angle) * dist + 'px';
+                const dy = Math.sin(angle) * dist - 80 + 'px'; // Pushed higher up
+                const rot = (Math.random() * 720 - 360) + 'deg';
+                
+                bubble.style.setProperty('--dx', dx);
+                bubble.style.setProperty('--dy', dy);
+                bubble.style.setProperty('--rot', rot);
+                bubble.style.animationDuration = (1.2 + Math.random() * 0.8) + 's';
+                
+                container.appendChild(bubble);
+                setTimeout(() => bubble.remove(), 2000);
+            }
+
+            // 4. Create a giant floating "Wish Star" balloon that rises and fades
+            const wishStar = document.createElement('div');
+            wishStar.className = 'floating-wish-star';
+            wishStar.innerHTML = '✨ MAKE A WISH ✨';
+            container.appendChild(wishStar);
+            setTimeout(() => wishStar.remove(), 4000);
         }
 
         function playPuffSound() {
