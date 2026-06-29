@@ -1919,10 +1919,12 @@
         const polaroidImg = document.getElementById('polaroid-img');
         const polaroidFrame = document.getElementById('polaroid-frame');
 
-        photoUpload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) loadPhoto(file);
-        });
+        if (photoUpload) {
+            photoUpload.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) loadPhoto(file);
+            });
+        }
 
         polaroidFrame.addEventListener('dragover', (e) => {
             e.preventDefault();
